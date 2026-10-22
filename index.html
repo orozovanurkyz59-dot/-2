@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cyber Cut Barbershop — барбершоп в Бишкеке</title>
+<meta name="description" content="Cyber Cut Barbershop: мужские стрижки с ИИ-подбором по форме лица, королевское бритьё и уход в Бишкеке. Онлайн-запись в 2 клика.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== Переменные и сброс ===== */
+:root{--bg:#121212;--steel:#1e1e24;--gold:#d97706;--gold2:#c59b27;--cream:#f5ecd7;--white:#fff;--muted:#a8a29e;--line:rgba(245,236,215,.1);--grad:linear-gradient(120deg,#f5ecd7,#c59b27 55%,#d97706)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--cream);line-height:1.65;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(55vw 45vh at 90% 0%,rgba(217,119,6,.16),transparent 70%),radial-gradient(45vw 45vh at 0% 60%,rgba(197,155,39,.08),transparent 70%)}
+a{color:inherit;text-decoration:none}
+svg{max-width:100%}
+.wrap{width:min(1160px,100% - 40px);margin-inline:auto}
+section{padding:96px 0}
+h1,h2,h3{color:var(--white);line-height:1.15}
+h1{font-weight:900;letter-spacing:-.02em}
+h2{font-size:clamp(1.7rem,3.6vw,2.6rem);font-weight:800;letter-spacing:-.01em;margin-bottom:14px}
+h3{font-size:1.05rem;font-weight:700;margin-bottom:8px}
+p{color:var(--muted);margin-bottom:12px}
+.lead{font-size:1.05rem;max-width:62ch}
+.head{margin-bottom:44px}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.note{font-size:.84rem}
+:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+
+/* ===== Кнопки со свечением ===== */
+.btn{display:inline-block;padding:14px 28px;border-radius:10px;border:1px solid transparent;background:linear-gradient(135deg,#e0a526,var(--gold));color:#1a1204;font:700 .95rem 'Montserrat',sans-serif;cursor:pointer;transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 0 0 3px rgba(217,119,6,.22),0 10px 40px rgba(217,119,6,.6)}
+.btn-ghost{background:transparent;border-color:rgba(245,236,215,.3);color:var(--cream)}
+.btn-ghost:hover{border-color:var(--gold2);box-shadow:0 0 30px rgba(197,155,39,.4)}
+.btn-sm{padding:9px 18px;font-size:.84rem}
+
+/* ===== Шапка ===== */
+header{position:fixed;inset:0 0 auto;z-index:50;border-bottom:1px solid transparent;transition:.3s}
+header.sc{background:rgba(18,18,18,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:20px}
+.logo{font-weight:900;font-size:1.05rem;letter-spacing:.06em;color:var(--white)}
+.logo b{color:var(--gold2)}
+.menu{display:flex;gap:22px;list-style:none;font-size:.88rem;font-weight:600}
+.menu a{color:var(--muted);transition:color .2s}
+.menu a:hover{color:var(--white)}
+.burger{display:none;background:none;border:0;width:42px;height:42px;cursor:pointer;flex-direction:column;justify-content:center;align-items:center;gap:6px}
+.burger span{width:24px;height:2px;background:var(--cream);transition:.3s}
+.burger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* ===== Главный экран ===== */
+.hero{min-height:100vh;display:flex;align-items:center;padding:130px 0 80px}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+.tag{display:inline-block;padding:7px 16px;border-radius:99px;border:1px solid var(--line);background:rgba(217,119,6,.1);color:var(--gold2);font-size:.84rem;font-weight:700;margin-bottom:22px}
+.hero h1{font-size:clamp(2.1rem,5.2vw,4rem)}
+.hero .lead{margin:22px 0 32px;font-size:1.12rem}
+.scan{padding:24px;border-radius:24px;background:rgba(30,30,36,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.face{position:relative;aspect-ratio:1;border-radius:16px;background:radial-gradient(circle at 50% 40%,rgba(217,119,6,.22),transparent 70%),#17171b;overflow:hidden;display:grid;place-items:center;color:var(--gold2)}
+.face svg{width:74%;height:74%}
+.face::after{content:"";position:absolute;left:8%;right:8%;height:2px;background:var(--gold2);box-shadow:0 0 16px var(--gold);animation:scan 3.2s ease-in-out infinite alternate}
+@keyframes scan{from{top:10%}to{top:90%}}
+.res{margin-top:16px;padding:14px 16px;border-radius:12px;background:rgba(217,119,6,.12);font-size:.88rem;color:var(--cream)}
+.res b{color:var(--white)}
+
+/* ===== Сетки и карточки ===== */
+.grid{display:grid;gap:22px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.card{background:rgba(30,30,36,.7);border:1px solid var(--line);border-radius:18px;padding:28px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-5px);border-color:rgba(197,155,39,.55);box-shadow:0 16px 48px rgba(217,119,6,.14)}
+.card p{margin:0;font-size:.93rem}
+.card a:hover{color:var(--gold2)}
+.ic{display:grid;place-items:center;width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#e0a526,#92400e);font-size:1.3rem;margin-bottom:16px}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.glass{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+
+/* ===== Прейскурант ===== */
+.price{display:flex;flex-direction:column}
+.price p{flex:1;margin-bottom:18px}
+.price .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.dur{font-size:.78rem;font-weight:700;color:var(--gold2);border:1px solid var(--line);border-radius:99px;padding:4px 12px}
+.price .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:16px;border-top:1px solid var(--line)}
+.sum{font-size:1.35rem;font-weight:800;color:var(--white)}
+.sum small{font-size:.76rem;font-weight:700;color:var(--muted)}
+.hot{border-color:rgba(197,155,39,.5);background:linear-gradient(160deg,rgba(217,119,6,.16),rgba(30,30,36,.7) 60%)}
+
+/* ===== Статистика ===== */
+.stats{padding:64px 0;background:rgba(30,30,36,.55);border-block:1px solid var(--line)}
+.stat{text-align:center}
+.stat b{display:block;font-size:clamp(2rem,4.2vw,3.2rem);font-weight:900;line-height:1.2;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat i{font-style:normal}
+.stat span{color:var(--muted);font-size:.92rem}
+
+/* ===== Отзывы ===== */
+.stars{color:var(--gold2);letter-spacing:3px;margin-bottom:12px}
+.who{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.who b{display:block;color:var(--white)}
+.who span{font-size:.85rem;color:var(--muted)}
+
+/* ===== Форма ===== */
+.book{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;padding:48px;border-radius:24px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(217,119,6,.16),rgba(30,30,36,.8) 60%)}
+.ticks{list-style:none;margin-top:22px}
+.ticks li{padding:7px 0;color:var(--muted)}
+.ticks li::before{content:"✓";color:var(--gold2);font-weight:800;margin-right:10px}
+form{display:grid;gap:16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:block;font-size:.85rem;font-weight:600;margin-bottom:6px;color:var(--white)}
+input,select{width:100%;padding:13px 16px;border-radius:10px;border:1px solid var(--line);background:rgba(18,18,18,.8);color:var(--white);font:inherit;color-scheme:dark;transition:border .2s,box-shadow .2s}
+input:focus,select:focus{outline:0;border-color:var(--gold2);box-shadow:0 0 0 3px rgba(217,119,6,.28)}
+small.e{display:none;color:#fca5a5;font-size:.8rem;margin-top:5px}
+.field.bad input,.field.bad select{border-color:#ef4444}
+.field.bad small.e{display:block}
+form .btn{width:100%}
+
+/* ===== Подвал ===== */
+footer{border-top:1px solid var(--line);padding:56px 0 28px;background:rgba(30,30,36,.4)}
+.foot{display:grid;grid-template-columns:1.3fr .8fr 1fr 1.2fr;gap:36px;margin-bottom:34px}
+.foot .logo{display:inline-block;margin-bottom:12px}
+.foot h4{color:var(--white);margin-bottom:14px;font-size:.92rem}
+.foot ul{list-style:none;display:grid;gap:8px;color:var(--muted);font-size:.9rem}
+.foot a:hover{color:var(--gold2)}
+.copy{border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:.84rem;text-align:center}
+
+/* ===== Модальное окно ===== */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(6,6,6,.78);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:.3s}
+.modal.show{opacity:1;visibility:visible}
+.box{max-width:440px;width:100%;padding:38px;text-align:center;border-radius:22px;background:var(--steel);border:1px solid rgba(197,155,39,.5);box-shadow:0 0 60px rgba(217,119,6,.3);transform:scale(.9);transition:transform .3s}
+.modal.show .box{transform:none}
+.ok{width:68px;height:68px;margin:0 auto 18px;border-radius:50%;background:linear-gradient(135deg,#e0a526,var(--gold));display:grid;place-items:center;font-size:2rem;color:#1a1204}
+.box p{margin:10px 0 24px}
+
+/* ===== Появление при прокрутке ===== */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.rv.in{opacity:1;transform:none}
+
+/* ===== Адаптивность ===== */
+@media(max-width:960px){
+.hero-grid,.two,.book{grid-template-columns:1fr}
+.g3,.g4{grid-template-columns:repeat(2,1fr)}
+.foot{grid-template-columns:1fr 1fr}
+}
+@media(max-width:860px){
+.burger{display:flex}
+.hide-m{display:none}
+.menu{position:fixed;inset:72px 0 auto;flex-direction:column;gap:0;background:rgba(18,18,18,.97);padding:8px 20px 24px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:transform .4s;z-index:-1}
+.menu.open{transform:none}
+.menu a{display:block;padding:14px 0;border-bottom:1px solid var(--line);font-size:1rem}
+}
+@media(max-width:600px){
+section{padding:68px 0}
+.g2,.g3,.feat,.row2,.foot{grid-template-columns:1fr}
+.stats .g4{grid-template-columns:1fr 1fr}
+.book{padding:28px 20px}
+.hero .btn{width:100%;text-align:center;margin-bottom:10px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- Шапка -->
+<header id="header">
+ <div class="wrap nav">
+  <a href="#hero" class="logo">CYBER<b>CUT</b> BARBERSHOP</a>
+  <nav><ul class="menu" id="menu">
+   <li><a href="#about">О барбершопе</a></li><li><a href="#services">Услуги</a></li><li><a href="#tech">Инновации</a></li>
+   <li><a href="#prices">Цены</a></li><li><a href="#reviews">Отзывы</a></li><li><a href="#contacts">Контакты</a></li>
+  </ul></nav>
+  <a href="#booking" class="btn btn-sm hide-m">Записаться</a>
+  <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
+ </div>
+</header>
+
+<main>
+<!-- 1. Главный экран -->
+<section class="hero" id="hero">
+ <div class="wrap hero-grid">
+  <div>
+   <span class="tag rv">Cyber Cut Barbershop · Бишкек</span>
+   <h1 class="rv"><span class="grad">Мужской стиль</span> нового поколения в Бишкеке</h1>
+   <p class="lead rv">Smart-анализ формы лица подберёт стрижку, которая вам действительно идёт. Опытные барберы, премиальная уходовая косметика и атмосфера мужского клуба.</p>
+   <div class="rv"><a href="#booking" class="btn">Записаться онлайн</a> <a href="#prices" class="btn btn-ghost">Посмотреть услуги</a></div>
+  </div>
+  <div class="scan rv">
+   <div class="face">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+     <ellipse cx="50" cy="50" rx="24" ry="32"/><path d="M26 44c0-18 10-28 24-28s24 10 24 28"/><path d="M40 46h6M54 46h6M50 48v10M43 66c4 3 10 3 14 0" /><path d="M26 50H10M74 50h16M50 18V6M50 82v12" stroke-dasharray="2 3" opacity=".7"/><circle cx="50" cy="50" r="2" fill="currentColor"/>
+    </svg>
+   </div>
+   <div class="res">Форма лица: <b>овальная</b>. Рекомендация: <b>Fade по бокам и текстурный верх</b>. Совпадение 93%.</div>
+  </div>
+ </div>
+</section>
+
+<!-- 2. О барбершопе -->
+<section id="about">
+ <div class="wrap two">
+  <div class="rv">
+   <h2>О <span class="grad">барбершопе</span></h2>
+   <p class="lead">Cyber Cut задуман как мужской клуб, где можно привести себя в порядок и спокойно отдохнуть.</p>
+   <p>Наша миссия: чтобы каждый гость выходил с аккуратной стрижкой, в которой чувствует себя уверенно. Мы сочетаем проверенную классику, такую как опасная бритва, горячие полотенца и точная работа ножницами, с цифровыми инструментами для подбора формы.</p>
+   <p>В зоне отдыха вас ждут игровые консоли, кофе, чай и крепкие напитки без алкоголя. Приходите заранее или задержитесь после стрижки.</p>
+  </div>
+  <div class="feat rv">
+   <div class="card glass"><span class="ic">🏛</span><h3>Классика</h3><p>Горячие полотенца и опасная бритва.</p></div>
+   <div class="card glass"><span class="ic">🤖</span><h3>Технологии</h3><p>ИИ-подбор стрижки по форме лица.</p></div>
+   <div class="card glass"><span class="ic">🎮</span><h3>Зона отдыха</h3><p>Консоли, кофе и холодные напитки.</p></div>
+   <div class="card glass"><span class="ic">🥃</span><h3>Мужской клуб</h3><p>Спокойная атмосфера без спешки.</p></div>
+  </div>
+ </div>
+</section>
+
+<!-- 3. Услуги и сервисы -->
+<section id="services">
+ <div class="wrap">
+  <div class="head rv"><h2>Услуги и <span class="grad">сервисы</span></h2><p class="lead">Всё для ухода за волосами, бородой и кожей лица в одном месте.</p></div>
+  <div class="grid g3">
+   <article class="card rv"><span class="ic">✂</span><h3>Мужские и детские стрижки</h3><p>Классические и современные стрижки, укладка и мытьё головы. Для детей до 12 лет подбираем спокойного мастера.</p></article>
+   <article class="card rv"><span class="ic">🧔</span><h3>Борода: моделирование и бритьё</h3><p>Придаём форму бороде и усам, а королевское бритьё опасной бритвой делаем с горячими полотенцами.</p></article>
+   <article class="card rv"><span class="ic">🎨</span><h3>Камуфляж седины</h3><p>Мягко снижаем заметность седины на волосах и бороде. Естественный оттенок без «эффекта краски».</p></article>
+   <article class="card rv"><span class="ic">💆</span><h3>SPA-уход за кожей лица</h3><p>Очищение, пилинг, маска и массаж. Подходит после бритья и для чувствительной кожи.</p></article>
+   <article class="card rv"><span class="ic">👨‍👦</span><h3>Сет «Отец + Сын»</h3><p>Две стрижки подряд у двух мастеров. Удобно прийти вместе и сэкономить время и деньги.</p></article>
+   <article class="card rv"><span class="ic">👑</span><h3>Сет «Тотальный уход»</h3><p>Стрижка, борода и SPA-уход в одном визите. Лучший выбор для подготовки к важному событию.</p></article>
+  </div>
+ </div>
+</section>
+
+<!-- 4. Инновации и комфорт -->
+<section id="tech">
+ <div class="wrap">
+  <div class="head rv"><h2>Инновации и <span class="grad">комфорт</span></h2><p class="lead">Технологии, которые экономят время и повышают точность результата.</p></div>
+  <div class="grid g2">
+   <article class="card glass rv"><span class="ic">🧠</span><h3>ИИ-сканирование формы лица</h3><p>Перед стрижкой камера анализирует пропорции лица и предлагает несколько вариантов. Мастер корректирует результат с учётом ваших волос.</p></article>
+   <article class="card glass rv"><span class="ic">📲</span><h3>Онлайн-запись в 2 клика</h3><p>Выберите услугу и мастера, остальное мы подтвердим в WhatsApp. Никаких звонков и ожидания в очереди.</p></article>
+   <article class="card glass rv"><span class="ic">🧴</span><h3>Премиальная косметика из Великобритании и США</h3><p>Работаем с профессиональными средствами для волос, бороды и кожи, которые подходят и для домашнего ухода.</p></article>
+   <article class="card glass rv"><span class="ic">🧼</span><h3>Индивидуальные стерильные наборы</h3><p>Для каждого гостя готовится отдельный набор инструментов, который обрабатывается после визита.</p></article>
+  </div>
+ </div>
+</section>
+
+<!-- 5. Прейскурант -->
+<section id="prices">
+ <div class="wrap">
+  <div class="head rv"><h2>Прейскурант <span class="grad">услуг</span></h2><p class="lead">Цены указаны в сомах. Длительность зависит от длины волос и пожеланий.</p></div>
+  <div class="grid g3">
+   <article class="card price hot rv"><div class="top"><h3 style="margin:0">Мужская стрижка + ИИ-подбор</h3><span class="dur">60 мин</span></div><p>Сканирование формы лица, подбор варианта, стрижка, мытьё головы и укладка.</p><div class="row"><div class="sum">1 200 <small>KGS</small></div><a href="#booking" class="btn btn-sm" data-s="Мужская стрижка + ИИ-подбор">Записаться</a></div></article>
+   <article class="card price rv"><div class="top"><h3 style="margin:0">Моделирование бороды</h3><span class="dur">40 мин</span></div><p>Придание формы, чёткий контур, масло и укладка бороды и усов.</p><div class="row"><div class="sum">800 <small>KGS</small></div><a href="#booking" class="btn btn-sm" data-s="Моделирование бороды">Записаться</a></div></article>
+   <article class="card price hot rv"><div class="top"><h3 style="margin:0">Комплекс «Стрижка + Борода»</h3><span class="dur">90 мин</span></div><p>Полный образ за один визит: стрижка с ИИ-подбором и моделирование бороды.</p><div class="row"><div class="sum">1 800 <small>KGS</small></div><a href="#booking" class="btn btn-sm" data-s="Комплекс «Стрижка + Борода»">Записаться</a></div></article>
+   <article class="card price rv"><div class="top"><h3 style="margin:0">Королевское бритьё</h3><span class="dur">45 мин</span></div><p>Опасная бритва, горячие и холодные полотенца, пена и успокаивающий бальзам.</p><div class="row"><div class="sum">1 000 <small>KGS</small></div><a href="#booking" class="btn btn-sm" data-s="Королевское бритьё">Записаться</a></div></article>
+   <article class="card price hot rv"><div class="top"><h3 style="margin:0">Сет «Отец + Сын»</h3><span class="dur">90 мин</span></div><p>Две стрижки для отца и сына одновременно у двух мастеров. Сын до 12 лет.</p><div class="row"><div class="sum">2 000 <small>KGS</small></div><a href="#booking" class="btn btn-sm" data-s="Сет «Отец + Сын»">Записаться</a></div></article>
+   <article class="card price rv"><div class="top"><h3 style="margin:0">Детская стрижка</h3><span class="dur">40 мин</span></div><p>Аккуратная стрижка для мальчиков до 12 лет с игровой зоной на время ожидания.</p><div class="row"><div class="sum">700 <small>KGS</small></div><a href="#booking" class="btn btn-sm" data-s="Детская стрижка">Записаться</a></div></article>
+   <article class="card price rv"><div class="top"><h3 style="margin:0">Камуфляж седины</h3><span class="dur">40 мин</span></div><p>Мягкое тонирование волос или бороды в естественный оттенок.</p><div class="row"><div class="sum">900 <small>KGS</small></div><a href="#booking" class="btn btn-sm" data-s="Камуфляж седины">Записаться</a></div></article>
+   <article class="card price rv"><div class="top"><h3 style="margin:0">SPA-уход за кожей лица</h3><span class="dur">50 мин</span></div><p>Очищение, пилинг, маска и массаж лица с профессиональной косметикой.</p><div class="row"><div class="sum">1 100 <small>KGS</small></div><a href="#booking" class="btn btn-sm" data-s="SPA-уход за кожей лица">Записаться</a></div></article>
+   <article class="card price hot rv"><div class="top"><h3 style="margin:0">Сет «Тотальный уход»</h3><span class="dur">150 мин</span></div><p>Стрижка, борода, королевское бритьё и SPA-уход. Полное обновление за один визит.</p><div class="row"><div class="sum">3 200 <small>KGS</small></div><a href="#booking" class="btn btn-sm" data-s="Сет «Тотальный уход»">Записаться</a></div></article>
+  </div>
+ </div>
+</section>
+
+<!-- 6. Статистика -->
+<section class="stats" id="stats">
+ <div class="wrap grid g4">
+  <div class="stat rv"><b><i data-count="8500" data-suf="+">0</i></b><span>довольных мужчин</span></div>
+  <div class="stat rv"><b><i data-count="12">0</i></b><span>топовых барберов</span></div>
+  <div class="stat rv"><b><i data-count="4.9" data-dec="1" data-suf="/5">0</i></b><span>рейтинг в 2GIS и Google</span></div>
+  <div class="stat rv"><b><i data-count="100" data-suf="%">0</i></b><span>стерильный инструмент</span></div>
+ </div>
+</section>
+
+<!-- 7. Отзывы -->
+<section id="reviews">
+ <div class="wrap">
+  <div class="head rv"><h2>Отзывы <span class="grad">гостей</span></h2><p class="lead">Что говорят о нас жители Бишкека.</p></div>
+  <div class="grid g3">
+   <article class="card rv"><div class="stars">★★★★★</div><p>Раньше каждый раз объяснял, что хочу, и получал что-то среднее. Здесь сканер показал варианты под мою форму лица, и стрижка села как надо. Атмосфера спокойная, консоли в зоне отдыха — приятный бонус.</p><div class="who"><b>Руслан Исмаилов</b><span>Стрижка + ИИ-подбор</span></div></article>
+   <article class="card rv"><div class="stars">★★★★★</div><p>Хожу на королевское бритьё раз в две недели. Горячее полотенце, острая бритва, никаких порезов и раздражения. После работы это лучший способ расслабиться.</p><div class="who"><b>Эрмек Сатыбалдиев</b><span>Королевское бритьё</span></div></article>
+   <article class="card rv"><div class="stars">★★★★★</div><p>Приходили с сыном по сету «Отец + Сын». Он обычно боится стричься, а тут мастер нашёл подход, и сын даже попросил прийти ещё. Цена честная.</p><div class="who"><b>Данияр Абдыкадыров</b><span>Сет «Отец + Сын»</span></div></article>
+   <article class="card rv"><div class="stars">★★★★★</div><p>Записался через сайт за минуту и пришёл ровно ко времени. Никаких очередей, мастер был готов. Борода после моделирования держит форму почти месяц.</p><div class="who"><b>Мирлан Осмонов</b><span>Моделирование бороды</span></div></article>
+   <article class="card rv"><div class="stars">★★★★★</div><p>Пробовал камуфляж седины, потому что не хотел красить волосы насовсем. Получилось очень естественно, коллеги заметили только, что я «хорошо выгляжу».</p><div class="who"><b>Бакыт Токтомушев</b><span>Камуфляж седины</span></div></article>
+   <article class="card rv"><div class="stars">★★★★☆</div><p>Заказал тотальный уход перед свадьбой друга. Всё сделали аккуратно и без суеты, ушёл довольный. Минус один: на вечер пятницы записаться сложно, лучше бронировать за неделю.</p><div class="who"><b>Азиз Мамбетов</b><span>Сет «Тотальный уход»</span></div></article>
+  </div>
+ </div>
+</section>
+
+<!-- 8. Форма записи -->
+<section id="booking">
+ <div class="wrap">
+  <div class="book rv">
+   <div>
+    <h2>Забронируйте <span class="grad">кресло</span></h2>
+    <p class="lead">Выберите услугу, мастера и удобную дату. Администратор подтвердит время в WhatsApp.</p>
+    <ul class="ticks"><li>Запись занимает меньше минуты</li><li>Напоминание о визите за 3 часа</li><li>Бесплатный перенос за 3 часа до начала</li></ul>
+   </div>
+   <form id="form" novalidate>
+    <div class="field"><label for="name">Имя</label><input id="name" type="text" autocomplete="name" placeholder="Как к вам обращаться"><small class="e">Введите имя, минимум 2 буквы</small></div>
+    <div class="field"><label for="phone">Телефон</label><input id="phone" type="tel" autocomplete="tel" placeholder="+996 555 123 456"><small class="e">Введите номер в формате +996 XXX XXX XXX</small></div>
+    <div class="field"><label for="service">Услуга</label><select id="service"><option value="">Выберите услугу</option><option>Мужская стрижка + ИИ-подбор</option><option>Моделирование бороды</option><option>Комплекс «Стрижка + Борода»</option><option>Королевское бритьё</option><option>Сет «Отец + Сын»</option><option>Детская стрижка</option><option>Камуфляж седины</option><option>SPA-уход за кожей лица</option><option>Сет «Тотальный уход»</option></select><small class="e">Выберите услугу</small></div>
+    <div class="row2">
+     <div class="field"><label for="master">Мастер</label><select id="master"><option value="">Выберите мастера</option><option>Любой свободный мастер</option><option>Бекболот</option><option>Тимур</option><option>Эмиль</option><option>Нурбек</option><option>Адилет</option></select><small class="e">Выберите мастера</small></div>
+     <div class="field"><label for="date">Дата</label><input id="date" type="date"><small class="e">Выберите сегодняшнюю или будущую дату</small></div>
+    </div>
+    <button class="btn" type="submit">Забронировать кресло</button>
+    <p class="note">Демо-форма: для реальной отправки заявок подключите Formspree или свой сервер.</p>
+   </form>
+  </div>
+ </div>
+</section>
+
+<!-- 9. Контакты -->
+<section id="contacts">
+ <div class="wrap">
+  <div class="head rv"><h2>Как нас <span class="grad">найти</span></h2></div>
+  <div class="grid g3">
+   <div class="card rv"><h3>📍 Адрес</h3><p>г. Бишкек, пр. Манаса / ул. Токтогула</p><p style="margin-top:6px">Ориентир: вход с проспекта Манаса, вывеска Cyber Cut, 1 этаж. Рядом есть парковка.</p></div>
+   <div class="card rv"><h3>🕒 Часы работы</h3><p>Пн–Пт: 10:00–22:00</p><p>Сб–Вс: 10:00–21:00</p></div>
+   <div class="card rv"><h3>📞 Связь</h3><p><a href="tel:+996555123456">+996 555 123 456</a></p><p><a href="https://wa.me/996555123456" target="_blank" rel="noopener">WhatsApp</a></p><p><a href="mailto:hello@cybercut.kg">hello@cybercut.kg</a></p><p><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a> · <a href="https://t.me/" target="_blank" rel="noopener">Telegram</a></p></div>
+  </div>
+ </div>
+</section>
+</main>
+
+<!-- 10. Подвал -->
+<footer>
+ <div class="wrap">
+  <div class="foot">
+   <div><a href="#hero" class="logo">CYBER<b>CUT</b> BARBERSHOP</a><p>Барбершоп нового поколения в Бишкеке: ИИ-подбор стрижек, классический сервис и премиальный уход.</p></div>
+   <div><h4>Навигация</h4><ul><li><a href="#about">О нас</a></li><li><a href="#prices">Цены</a></li><li><a href="#reviews">Отзывы</a></li><li><a href="#booking">Запись</a></li></ul></div>
+   <div><h4>Контакты</h4><ul><li>пр. Манаса / ул. Токтогула</li><li><a href="tel:+996555123456">+996 555 123 456</a></li><li><a href="mailto:hello@cybercut.kg">hello@cybercut.kg</a></li></ul></div>
+   <div><h4>Правила записи</h4><ul><li>Опоздание более 15 минут сокращает время услуги</li><li>Отмена и перенос бесплатны за 3 часа</li><li>Дети до 12 лет только с взрослым</li></ul></div>
+  </div>
+  <div class="copy">© <span id="year">2026</span> Cyber Cut Barbershop. Все права защищены. Бишкек, Кыргызстан.</div>
+ </div>
+</footer>
+
+<!-- Модальное окно -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+ <div class="box"><div class="ok">✓</div><h3 id="mt" style="font-size:1.4rem">Вы успешно записаны!</h3><p id="mtext">Наш администратор свяжется с вами в WhatsApp.</p><button class="btn" id="close">Отлично</button></div>
+</div>
+
+<script>
+/* Cyber Cut Barbershop — интерактивность */
+(function () {
+  'use strict';
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  /* ===== Мобильное меню и плавная прокрутка ===== */
+  var burger = $('#burger'), menu = $('#menu');
+  function closeMenu() { burger.classList.remove('open'); menu.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }
+  burger.addEventListener('click', function () {
+    var o = burger.classList.toggle('open'); menu.classList.toggle('open', o); burger.setAttribute('aria-expanded', o);
+  });
+  $$('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href'); if (id.length < 2) return;
+      var t = $(id); if (!t) return;
+      e.preventDefault(); closeMenu();
+      window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 72, behavior: 'smooth' });
+      history.replaceState(null, '', id);
+    });
+  });
+  var hd = $('#header');
+  function onScroll() { hd.classList.toggle('sc', window.scrollY > 30); }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* ===== Появление элементов при прокрутке ===== */
+  var io = new IntersectionObserver(function (en) {
+    en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } });
+  }, { threshold: .12 });
+  $$('.rv').forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io.observe(el); });
+
+  /* ===== Счётчики статистики ===== */
+  function count(el) {
+    var end = parseFloat(el.dataset.count), dec = +el.dataset.dec || 0, suf = el.dataset.suf || '', st = null;
+    function step(ts) {
+      if (!st) st = ts;
+      var p = Math.min((ts - st) / 1800, 1), v = end * (1 - Math.pow(1 - p, 3));
+      el.textContent = (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('ru-RU')) + suf;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var co = new IntersectionObserver(function (en) {
+    en.forEach(function (x) { if (x.isIntersecting) { count(x.target); co.unobserve(x.target); } });
+  }, { threshold: .6 });
+  $$('[data-count]').forEach(function (el) { co.observe(el); });
+
+  /* ===== Кнопки в прейскуранте подставляют услугу в форму ===== */
+  $$('[data-s]').forEach(function (b) {
+    b.addEventListener('click', function () { $('#service').value = b.dataset.s; });
+  });
+
+  /* ===== Дата: нельзя выбрать прошедший день ===== */
+  var date = $('#date'), now = new Date();
+  date.min = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+
+  /* ===== Валидация формы и модальное окно ===== */
+  function mark(id, ok) { $('#' + id).closest('.field').classList.toggle('bad', !ok); return ok; }
+  function validate() {
+    return [
+      mark('name', /^[A-Za-zА-Яа-яЁёҢңӨөҮү\s'-]{2,}$/.test($('#name').value.trim())),
+      mark('phone', /^\+996\d{9}$/.test($('#phone').value.replace(/[\s()-]/g, ''))),
+      mark('service', !!$('#service').value),
+      mark('master', !!$('#master').value),
+      mark('date', !!date.value && date.value >= date.min)
+    ].every(Boolean);
+  }
+  ['name', 'phone', 'service', 'master', 'date'].forEach(function (id) {
+    $('#' + id).addEventListener('input', function () { if ($('#' + id).closest('.field').classList.contains('bad')) validate(); });
+  });
+  $('#phone').addEventListener('focus', function () { if (!this.value) this.value = '+996 '; });
+
+  var modal = $('#modal'), form = $('#form');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validate()) { var f = $('.field.bad input, .field.bad select', form); if (f) f.focus(); return; }
+    /* Здесь подключите отправку данных, например fetch() на Formspree или свой сервер */
+    $('#mtext').textContent = 'Спасибо, ' + $('#name').value.trim() + '! Наш администратор свяжется с вами в WhatsApp по номеру ' + $('#phone').value.trim() + '.';
+    modal.classList.add('show'); form.reset(); $('#close').focus();
+  });
+  function closeModal() { modal.classList.remove('show'); }
+  $('#close').addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeModal(); closeMenu(); } });
+
+  $('#year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
